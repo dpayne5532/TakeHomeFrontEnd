@@ -9,17 +9,17 @@ import SwiftUI
 
 
 class Change: ObservableObject {
-  @Published var hundreds: Int = 10
-  @Published var fifties: Int = 1
-  @Published var twenties: Int = 4
-  @Published var tens: Int = 1
-  @Published var fives: Int = 1
+  @Published var hundreds: Int = 0
+  @Published var fifties: Int = 0
+  @Published var twenties: Int = 0
+  @Published var tens: Int = 0
+  @Published var fives: Int = 0
   @Published var twos: Int = 0
-  @Published var ones: Int = 4
-  @Published var quarters: Int = 3
-  @Published var dimes: Int = 2
-  @Published var nickels: Int = 1
-  @Published var pennies: Int = 4
+  @Published var ones: Int = 0
+  @Published var quarters: Int = 0
+  @Published var dimes: Int = 0
+  @Published var nickels: Int = 0
+  @Published var pennies: Int = 0
 }
 
 
@@ -31,8 +31,8 @@ struct ContentView: View {
   
   let changeURL = "https://frosty-glade-1979.fly.dev/"
   @FocusState private var focusedField: Field?
-  @State private var amountD:Int = 198
-  @State private var amountC:Int = 15
+  @State private var amount:Double = 149.94
+  
   @ObservedObject var changeData = Change()
   
   private let numberFormatter: NumberFormatter
@@ -58,24 +58,12 @@ struct ContentView: View {
           
           
           HStack {
-            ZStack {
+            VStack {
+              Text(changeData.hundreds == 0 ? "" : "x: \(changeData.hundreds)")
+                .font(.title)
+                .bold()
               Image(changeData.hundreds == 0 ? "" : "hundreds1")
                 .padding(.leading)
-              VStack {
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Spacer()
-                Text(changeData.hundreds == 0 ? "" : "x: \(changeData.hundreds)")
-                  .font(.title)
-                  .bold()
-                Spacer()
-              }
-              
               
             }
             Image("fifties\(changeData.fifties)")
@@ -118,7 +106,7 @@ struct ContentView: View {
         
         HStack {
           
-          Text("\(amountD).\(amountC)")
+          Text("$\(amount, specifier: "%.2f")")
             .font(.title)
           
           
@@ -126,17 +114,17 @@ struct ContentView: View {
           
           
           Stepper("Dollars:", onIncrement: {
-            amountD += 1
+            amount += 1
           }, onDecrement: {
-            amountD -= 1
+            amount -= 1
           })
           .frame(width: 160)
           
           
           Stepper("Cents:", onIncrement: {
-            amountD += 1
+            amount += 0.01
           }, onDecrement: {
-            amountD -= 1
+            amount -= 0.01
           })
           .frame(width: 160)
           
@@ -171,7 +159,7 @@ struct ContentView: View {
   }
   
   
-  func fetchQuote(amount: Float) {
+  func fetchQuote(amount: Double) {
     let urlString = "\(changeURL)\(amount)"
     print("urlString: ", urlString)
     performRequest(urlString: urlString)
@@ -222,9 +210,8 @@ struct ContentView: View {
   func doStuff() {
     
     DispatchQueue.global(qos: .userInitiated).async {
-      var amount = "\(amountD).\(amountC)"
-      var amountFloat = Float(amount)
-      fetchQuote(amount: amountFloat!)
+      
+      fetchQuote(amount: amount)
     }
   }
   
