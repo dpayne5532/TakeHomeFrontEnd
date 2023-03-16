@@ -31,17 +31,33 @@ struct ContentView: View {
   
   let changeURL = "http://localhost:3010/"
   
- @ObservedObject var changeData = Change()
+  @State private var amount:Float = 0.00
+  @ObservedObject var changeData = Change()
   
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+  private let numberFormatter: NumberFormatter
+      
+      init() {
+        numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.maximumFractionDigits = 2
+      }
+  
+  var body: some View {
+    VStack {
+      
+      HStack {
+      
+        TextField("amount", value: $amount, formatter: numberFormatter)
+          .font(.title)
+          .bold()
+          .multilineTextAlignment(.center)
+        
+      }
+      
+      
     }
+    .padding()
+  }
   
   
   func fetchQuote(amount: Int) {
@@ -90,7 +106,7 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+  static var previews: some View {
+    ContentView()
+  }
 }
