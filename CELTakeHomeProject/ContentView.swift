@@ -23,15 +23,11 @@ class Change: ObservableObject {
 }
 
 
-
-
-
-
 struct ContentView: View {
   
   let changeURL = "https://frosty-glade-1979.fly.dev/"
   @FocusState private var focusedField: Field?
-  @State private var amount:Double = 149.94
+  @State private var amount:Double = 150.00
   
   @ObservedObject var changeData = Change()
   
@@ -47,8 +43,6 @@ struct ContentView: View {
     case myField
   }
   
-  
-  
   var body: some View {
     ZStack {
       Color(.gray)
@@ -56,10 +50,9 @@ struct ContentView: View {
       VStack {
         VStack {
           
-          
           HStack {
             VStack {
-              Text(changeData.hundreds == 0 ? "" : "x: \(changeData.hundreds)")
+              Text(changeData.hundreds < 2 ? "" : "x: \(changeData.hundreds)")
                 .font(.title)
                 .bold()
               Image(changeData.hundreds == 0 ? "" : "hundreds1")
@@ -72,7 +65,6 @@ struct ContentView: View {
               .padding(.trailing)
           }
           
-          
           HStack {
             Image("tens\(changeData.tens)")
               .padding(.leading)
@@ -80,11 +72,9 @@ struct ContentView: View {
               .padding()
             Image("one\(changeData.ones)")
               .padding(.trailing)
-            
-            
+  
           }
-          
-          
+
           HStack {
             Image("quarters\(changeData.quarters)")
               .padding(.leading)
@@ -109,48 +99,37 @@ struct ContentView: View {
           Text("$\(amount, specifier: "%.2f")")
             .font(.title)
           
+          VStack {
+            
+            Stepper("Dollars:", onIncrement: {
+              amount += 1
+            }, onDecrement: {
+              amount -= 1
+            })
+            .frame(width: 160)
+            
+            Stepper("Cents:", onIncrement: {
+              amount += 0.01
+            }, onDecrement: {
+              amount -= 0.01
+            })
+            .frame(width: 160)
+            
+          }.padding()
           
-        VStack {
-          
-          
-          Stepper("Dollars:", onIncrement: {
-            amount += 1
-          }, onDecrement: {
-            amount -= 1
-          })
-          .frame(width: 160)
-          
-          
-          Stepper("Cents:", onIncrement: {
-            amount += 0.01
-          }, onDecrement: {
-            amount -= 0.01
-          })
-          .frame(width: 160)
-          
-          
-          //          TextField("amount", value: $amount, formatter: numberFormatter)
-          //            .focused($focusedField, equals: .myField)
-          //            .keyboardType(.decimalPad)
-          //            .font(.title)
-          //            .bold()
-          //            .multilineTextAlignment(.center)
-          
-        }.padding()
-        
-        
-      }
+        }
         
         Button(action: doStuff) {
-          Text("Change!")
-          
-            .frame(width: 150, height: 60)
-            .background(.blue)
-            .foregroundColor(.white)
-            .bold()
-            .font(.title2)
-            .clipShape(Capsule())
-          
+          ZStack(alignment: .leading) {
+            
+            Text("DISPENSE")
+              .frame(width: 200, height: 60)
+              .background(.blue)
+              .foregroundColor(.white)
+              .bold()
+              .font(.title2)
+              .clipShape(Capsule())
+          }
         }
       }
       .padding()
@@ -210,7 +189,6 @@ struct ContentView: View {
   func doStuff() {
     
     DispatchQueue.global(qos: .userInitiated).async {
-      
       fetchQuote(amount: amount)
     }
   }
