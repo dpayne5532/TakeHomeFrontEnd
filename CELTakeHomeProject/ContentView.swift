@@ -52,7 +52,7 @@ struct ContentView: View {
           
           HStack {
             VStack {
-              Text(changeData.hundreds < 2 ? "" : "x: \(changeData.hundreds)")
+              Text(changeData.hundreds < 2 ? "" : "\(changeData.hundreds)x")
                 .font(.title)
                 .bold()
               Image(changeData.hundreds == 0 ? "" : "hundreds1")
