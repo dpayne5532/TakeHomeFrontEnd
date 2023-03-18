@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class Change: ObservableObject {
   @Published var hundreds: Int = 0
   @Published var fifties: Int = 0
@@ -22,15 +21,14 @@ class Change: ObservableObject {
   @Published var pennies: Int = 0
 }
 
-
 struct ContentView: View {
   
-  let changeURL = "https://frosty-glade-1979.fly.dev/"
   @FocusState private var focusedField: Field?
   @State private var amount:Double = 150.00
   @State private var showSheet = false
   @ObservedObject var changeData = Change()
   
+  let changeURL = "https://frosty-glade-1979.fly.dev/"
   private let numberFormatter: NumberFormatter
   
   init() {
@@ -45,14 +43,12 @@ struct ContentView: View {
   
   var body: some View {
     ZStack {
-      //      Color(.gray)
       Image("background2")
         .resizable()
         .scaledToFill()
         .ignoresSafeArea()
       VStack {
         VStack {
-          
           HStack {
             VStack {
               Text(changeData.hundreds < 2 ? "" : "\(changeData.hundreds)x")
@@ -60,7 +56,6 @@ struct ContentView: View {
                 .bold()
               Image(changeData.hundreds == 0 ? "" : "hundreds1")
                 .padding(.leading)
-              
             }
             Image("fifties\(changeData.fifties)")
               .padding()
@@ -75,7 +70,6 @@ struct ContentView: View {
               .padding()
             Image("one\(changeData.ones)")
               .padding(.trailing)
-            
           }
           
           HStack {
@@ -96,15 +90,12 @@ struct ContentView: View {
         .padding()
         
         Spacer()
-        
         HStack {
-          
           Text("$\(amount, specifier: "%.2f")")
             .font(.title)
             .foregroundColor(.black)
           
           VStack {
-            
             Stepper("Dollars:", onIncrement: {
               amount += 1
             }, onDecrement: {
@@ -120,11 +111,8 @@ struct ContentView: View {
             })
             .frame(width: 160)
             .foregroundColor(.black)
-            
-            
-          }.padding()
-          
-          
+          }
+          .padding()
         }
         HStack {
           Spacer()
@@ -160,7 +148,7 @@ struct ContentView: View {
                   .frame(width: 158, height: 150)
                   .clipShape(Circle())
                   .overlay( Circle().stroke(Color.black, lineWidth: 5))
-                  
+                
                 
                 Text("This app was built as a take home project for")
                 Text("California Eastern Laboratories.")
@@ -168,21 +156,15 @@ struct ContentView: View {
                 Text("Thank you for your consideration!\n")
                   .presentationDetents([.medium, .large])
                   .presentationDragIndicator(.hidden)
-               
+                
                 Text("Dan Payne\n")
                 Text("dpaynebills@gmail.com\n")
-                
                 Text("https://danpayne.info")
-                
-                
-                
               }
             }
           }
           
           Spacer()
-            
-          
         }
       }
       .padding()
@@ -194,7 +176,6 @@ struct ContentView: View {
   func toggleSheet() {
     showSheet.toggle()
   }
-  
   
   func fetchQuote(amount: Double) {
     let urlString = "\(changeURL)\(amount)"
@@ -210,11 +191,9 @@ struct ContentView: View {
           print(error!)
           return
         }
-        
         if let safeData = data {
           self.parseJSON(changeData: safeData)
         }
-        
       }
       task.resume()
     }
@@ -224,7 +203,6 @@ struct ContentView: View {
     let decoder = JSONDecoder()
     do {
       let decodedData = try decoder.decode(ChangeData.self, from: changeData)
-      
       DispatchQueue.main.async {
         self.changeData.hundreds = decodedData.hundreds ?? 0
         self.changeData.fifties = decodedData.fifties ?? 0
@@ -236,8 +214,6 @@ struct ContentView: View {
         self.changeData.dimes = decodedData.dimes ?? 0
         self.changeData.nickels = decodedData.nickels ?? 0
         self.changeData.pennies = decodedData.pennies ?? 0
-        
-        
       }
     } catch {
       print(error.localizedDescription)
@@ -245,13 +221,10 @@ struct ContentView: View {
   }
   
   func makeChange() {
-    
     DispatchQueue.global(qos: .userInitiated).async {
       fetchQuote(amount: amount)
     }
   }
-  
-  
 }
 
 struct ContentView_Previews: PreviewProvider {
