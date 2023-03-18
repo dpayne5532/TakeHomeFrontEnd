@@ -129,7 +129,7 @@ struct ContentView: View {
         HStack {
           Spacer()
           Spacer()
-          Button(action: doStuff) {
+          Button(action: makeChange) {
             ZStack(alignment: .leading) {
               
               Text("Make Change")
@@ -244,7 +244,7 @@ struct ContentView: View {
     }
   }
   
-  func doStuff() {
+  func makeChange() {
     
     DispatchQueue.global(qos: .userInitiated).async {
       fetchQuote(amount: amount)
