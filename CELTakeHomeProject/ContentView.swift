@@ -162,15 +162,19 @@ struct ContentView: View {
                   .overlay( Circle().stroke(Color.black, lineWidth: 5))
                   
                 
-                Text("This app was built as a take home project for \nCalifornia Eastern Laboratories")
+                Text("This app was built as a take home project for")
+                Text("California Eastern Laboratories.")
                 Text("")
-                Text("Thank you for your consideration!")
+                Text("Thank you for your consideration!\n")
                   .presentationDetents([.medium, .large])
                   .presentationDragIndicator(.hidden)
-                Text("Dan Payne")
-                Text("dpaynebills@gmail.com")
+               
+                Text("Dan Payne\n")
+                Text("dpaynebills@gmail.com\n")
+                
                 Text("https://danpayne.info")
-                Text("(605) 760-7817")
+                
+                
                 
               }
             }
