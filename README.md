@@ -13,4 +13,4 @@ This iOS app utilizes the [Make Change API](https://github.com/dpayne5532/TakeHo
 
 
 
-* - the term 'quality' is used quite loosley and in this context means basically nothing :)
+* - the term 'quality' is open for interpretation. 
