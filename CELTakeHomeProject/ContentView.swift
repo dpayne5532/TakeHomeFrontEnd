@@ -28,7 +28,7 @@ struct ContentView: View {
   let changeURL = "https://frosty-glade-1979.fly.dev/"
   @FocusState private var focusedField: Field?
   @State private var amount:Double = 150.00
-  
+  @State private var showSheet = false
   @ObservedObject var changeData = Change()
   
   private let numberFormatter: NumberFormatter
@@ -45,7 +45,10 @@ struct ContentView: View {
   
   var body: some View {
     ZStack {
-      Color(.gray)
+      //      Color(.gray)
+      Image("background2")
+        .resizable()
+        .scaledToFill()
         .ignoresSafeArea()
       VStack {
         VStack {
@@ -72,9 +75,9 @@ struct ContentView: View {
               .padding()
             Image("one\(changeData.ones)")
               .padding(.trailing)
-  
+            
           }
-
+          
           HStack {
             Image("quarters\(changeData.quarters)")
               .padding(.leading)
@@ -98,6 +101,7 @@ struct ContentView: View {
           
           Text("$\(amount, specifier: "%.2f")")
             .font(.title)
+            .foregroundColor(.black)
           
           VStack {
             
@@ -107,6 +111,7 @@ struct ContentView: View {
               amount -= 1
             })
             .frame(width: 160)
+            .foregroundColor(.black)
             
             Stepper("Cents:", onIncrement: {
               amount += 0.01
@@ -114,27 +119,76 @@ struct ContentView: View {
               amount -= 0.01
             })
             .frame(width: 160)
+            .foregroundColor(.black)
+            
             
           }.padding()
           
+          
         }
-        
-        Button(action: doStuff) {
-          ZStack(alignment: .leading) {
-            
-            Text("DISPENSE")
-              .frame(width: 200, height: 60)
-              .background(.blue)
-              .foregroundColor(.white)
-              .bold()
-              .font(.title2)
-              .clipShape(Capsule())
+        HStack {
+          Spacer()
+          Spacer()
+          Button(action: doStuff) {
+            ZStack(alignment: .leading) {
+              
+              Text("Make Change")
+                .frame(width: 200, height: 60)
+                .background(.blue)
+                .foregroundColor(.white)
+                .bold()
+                .font(.title2)
+                .clipShape(Capsule())
+              
+            }
           }
+          
+          Spacer()
+            .frame(width: 25)
+          
+          Button(action: toggleSheet) {
+            Image(systemName: "info.circle")
+              .foregroundColor(.black)
+          }.sheet(isPresented: $showSheet) {
+            ZStack {
+              Color("newGray")
+                .ignoresSafeArea()
+              VStack {
+                Image("meee")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  .frame(width: 158, height: 150)
+                  .clipShape(Circle())
+                  .overlay( Circle().stroke(Color.black, lineWidth: 5))
+                  
+                
+                Text("This app was built as a take home project for \nCalifornia Eastern Laboratories")
+                Text("")
+                Text("Thank you for your consideration!")
+                  .presentationDetents([.medium, .large])
+                  .presentationDragIndicator(.hidden)
+                Text("Dan Payne")
+                Text("dpaynebills@gmail.com")
+                Text("https://danpayne.info")
+                Text("(605) 760-7817")
+                
+              }
+            }
+          }
+          
+          Spacer()
+            
+          
         }
       }
       .padding()
+      .preferredColorScheme(.light)
       
     }
+  }
+  
+  func toggleSheet() {
+    showSheet.toggle()
   }
   
   
