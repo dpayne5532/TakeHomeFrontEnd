@@ -24,7 +24,7 @@ class Change: ObservableObject {
 struct ContentView: View {
   
   @FocusState private var focusedField: Field?
-  @State private var amount:Double = 150.00
+  @State private var amount:Double = 15.00
   @State private var showSheet = false
   @ObservedObject var changeData = Change()
   
@@ -99,7 +99,12 @@ struct ContentView: View {
             Stepper("Dollars:", onIncrement: {
               amount += 1
             }, onDecrement: {
-              amount -= 1
+              if amount >= 1 {
+                amount -= 1
+              } else {
+                amount = 0
+              }
+              
             })
             .frame(width: 160)
             .foregroundColor(.black)
@@ -107,7 +112,14 @@ struct ContentView: View {
             Stepper("Cents:", onIncrement: {
               amount += 0.01
             }, onDecrement: {
-              amount -= 0.01
+              if amount >= 0.01 {
+                amount -= 0.01
+              } else {
+                amount = 0
+              }
+              
+              
+              
             })
             .frame(width: 160)
             .foregroundColor(.black)
