@@ -28,7 +28,7 @@ struct ContentView: View {
   @State private var showSheet = false
   @ObservedObject var changeData = Change()
   
-  let changeURL = "https://frosty-glade-1979.fly.dev/"
+  let changeURL = "https://damp-lake-327.fly.dev/"
   private let numberFormatter: NumberFormatter
   
   init() {
@@ -42,6 +42,8 @@ struct ContentView: View {
   }
   
   var body: some View {
+    
+    
     ZStack {
       Image("background2")
         .resizable()
@@ -99,10 +101,10 @@ struct ContentView: View {
             Stepper("Dollars:", onIncrement: {
               amount += 1
             }, onDecrement: {
-              if amount >= 1 {
+              if amount > 1 {
                 amount -= 1
               } else {
-                amount = 0
+                amount = 0.01
               }
               
             })
@@ -112,10 +114,10 @@ struct ContentView: View {
             Stepper("Cents:", onIncrement: {
               amount += 0.01
             }, onDecrement: {
-              if amount >= 0.01 {
+              if amount > 0.01 {
                 amount -= 0.01
               } else {
-                amount = 0
+                amount = 0.01
               }
               
               
